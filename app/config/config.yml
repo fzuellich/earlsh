@@ -52,7 +52,7 @@ assetic:
 # Doctrine Configuration
 doctrine:
     dbal:
-        driver:   pdo_sqlite
+        driver: "pdo_sqlite"
         path: "%database_path%"
         charset:  UTF8
         # if using pdo_sqlite as your database driver:
