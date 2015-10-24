@@ -5,9 +5,9 @@ use AppBundle\Lib\TokenConverter;
 
 class TokenConverterTest extends \PHPUnit_Framework_TestCase {
 
-	/* *******************************************************************************
-	 *	TokenConverter::convert_id_to_token()
-	 * *******************************************************************************/
+	// ////////////////////////////////////////////////////////////////////////
+	//	TokenConverter::convert_id_to_token()
+	// ////////////////////////////////////////////////////////////////////////
 
 	/**
 	 * @expectedException InvalidArgumentException
@@ -39,9 +39,9 @@ class TokenConverterTest extends \PHPUnit_Framework_TestCase {
 		}
 	}
 
-	/* *******************************************************************************
-	 *	TokenConverter::convert_token_to_id()
-	 * *******************************************************************************/
+	// ////////////////////////////////////////////////////////////////////////
+	//	TokenConverter::convert_token_to_id()
+	// ////////////////////////////////////////////////////////////////////////
 
 	/**
 	 * @expectedException InvalidArgumentException
