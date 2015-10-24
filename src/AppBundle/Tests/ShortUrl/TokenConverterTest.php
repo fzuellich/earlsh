@@ -1,7 +1,7 @@
 <?php
 namespace AppBundle\Tests\Lib;
 
-use AppBundle\Lib\TokenConverter;
+use AppBundle\ShortUrl\TokenConverter;
 
 class TokenConverterTest extends \PHPUnit_Framework_TestCase {
 

@@ -1,5 +1,5 @@
 <?php
-namespace AppBundle\Lib;
+namespace AppBundle\ShortUrl;
 /**
  * Class implementing the algorithm to convert between token and integer (id from database).
  *
