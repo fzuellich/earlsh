@@ -1,5 +1,8 @@
 <?php
 namespace AppBundle\ShortUrl;
+
+use AppBundle\ShortUrl\Exception\InvalidTokenException;
+
 /**
  * Class implementing the algorithm to convert between token and integer (id from database).
  *
@@ -63,7 +66,7 @@ class TokenConverter {
 			$position = strpos(self::ALLOWED_CHARS, $character);
 
 			if($position === False) {
-				throw new \InvalidArgumentException('Invalid character ´'.$character.'´.');
+				throw new InvalidTokenException('Invalid character ´'.$character.'´.');
 			}
 
 			$id = intval($id * self::BASE + $position);
