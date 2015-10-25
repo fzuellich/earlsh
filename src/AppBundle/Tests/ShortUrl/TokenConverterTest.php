@@ -1,5 +1,5 @@
 <?php
-namespace AppBundle\Tests\Lib;
+namespace AppBundle\Tests\ShortUrl;
 
 use AppBundle\ShortUrl\TokenConverter;
 
@@ -58,7 +58,7 @@ class TokenConverterTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @expectedException InvalidArgumentException
+	 * @expectedException AppBundle\ShortUrl\Exception\InvalidTokenException
 	 */
 	public function test_convert_token_to_id_invalid_character() {
 		TokenConverter::convert_token_to_id('abc123EDÖ');
