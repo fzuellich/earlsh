@@ -11,14 +11,14 @@ use Doctrine\ORM\Mapping as ORM;
 class ShortUrl {
 
 	/**
-	* @ORM\Column(type="string", length=8, unique=true)
+	* @ORM\Column(type="integer")
 	* @ORM\Id
 	* @ORM\GeneratedValue(strategy="AUTO")
 	*/
 	protected $id;
 
 	/**
-	* @ORM\Column(type="string", length=255)
+	* @ORM\Column(type="string", length=255, unique=true)
 	*/
 	protected $url;
 
