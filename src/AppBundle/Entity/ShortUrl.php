@@ -6,15 +6,16 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
 * @ORM\Entity
-* @ORM\Table(name="entry")
+* @ORM\Table(name="shorturl")
 */
-class Entry {
+class ShortUrl {
 
 	/**
 	* @ORM\Column(type="string", length=8, unique=true)
 	* @ORM\Id
+	* @ORM\GeneratedValue(strategy="AUTO")
 	*/
-	protected $token;
+	protected $id;
 
 	/**
 	* @ORM\Column(type="string", length=255)
@@ -33,25 +34,25 @@ class Entry {
 	/**
 	* Set token
 	*
-	* @param string $token
+	* @param string $id
 	*
 	* @return Entry
 	*/
-	public function setToken($token)
+	public function setId($id)
 	{
-		$this->token = $token;
+		$this->id = $id;
 
 		return $this;
 	}
 
 	/**
-	* Get token
+	* Get id
 	*
 	* @return string
 	*/
-	public function getToken()
+	public function getId()
 	{
-		return $this->token;
+		return $this->id;
 	}
 
 	/**
