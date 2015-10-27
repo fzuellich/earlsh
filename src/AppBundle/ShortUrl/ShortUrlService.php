@@ -112,7 +112,7 @@ class ShortUrlService {
 		if($shortUrl) {
 			return $shortUrl->getUrl();
 		} else {
-			throw new TokenNotFoundException();
+			throw new TokenNotFoundException('Token was not found.');
 		}
 	}
 }
