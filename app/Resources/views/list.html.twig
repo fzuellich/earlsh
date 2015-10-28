@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+
+<h2>All Urls</h2>
+<ul>
+	{% for url in urls %}
+	<li>{{url.url}}</li>
+	{% endfor %}
+</ul>
+
+{% endblock %}
