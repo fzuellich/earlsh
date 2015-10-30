@@ -6,7 +6,7 @@
 
 {{form_start(shorten_form, {'attr': {'class': 'form-horizontal'}})}}
 
-{{form_errors(shorten_form)}}
+<div class="text-danger">{{form_errors(shorten_form.url)}}</div>
 
 <div class="form-group">
 	<label class="col-sm-2 control-label">URL</label>

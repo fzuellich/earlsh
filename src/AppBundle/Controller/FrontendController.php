@@ -30,7 +30,7 @@ class FrontendController extends Controller {
 
 
 		$form = $this->createFormBuilder()
-				->add('url', 'text')
+				->add('url', 'url')
 				->add('save', 'submit', array('label' => 'Shorten'))->getForm();
 		$form->handleRequest($request);
 
@@ -38,12 +38,16 @@ class FrontendController extends Controller {
 		if($method === 'GET') {
 			return $this->render('shorten.html.twig', array('shorten_form' => $form->createView()));
 		} elseif($method === 'POST') {
+			$url = $form->getData()['url'];
+
 			if($form->isValid()) {
 				$service = $this->get('short_url_service');
-
-				$url = $form->getData()['url'];
-				$token = $service->shorten_url($url);
-				return $this->render('shorten_result.html.twig', array('token' => $token));
+				try {
+					$token = $service->shorten_url($url);
+					return $this->render('shorten_result.html.twig', array('token' => $token));
+				} catch(\Exception $e) {
+					$form->get('url')->addError(new \Symfony\Component\Form\FormError($e->getMessage()));
+				}
 			}
 			return $this->render('shorten.html.twig', array('shorten_form' => $form->createView()));
 		}
