@@ -12,7 +12,7 @@ use AppBundle\ShortUrl\ShortUrlService;
 class FrontendController extends Controller {
 
 	/**
-	 * @Route("/r/{token}")
+	 * @Route("/r/{token}", name="resolve")
 	 */
 	public function resolveAction($token) {
 		$service = $this->get('short_url_service');

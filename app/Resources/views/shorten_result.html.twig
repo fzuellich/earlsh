@@ -1,5 +1,6 @@
 {% extends 'base.html.twig' %}
 
 {% block content %}
-<p class="well">Your token: <i>http://localhost:8000/app_dev.php/r/{{token}}</i></p>
+<h2>Your token</h2>
+<p class="well"><i>{{url('resolve', {'token': token})}}</i></p>
 {% endblock %}
