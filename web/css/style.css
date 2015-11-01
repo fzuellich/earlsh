@@ -1,3 +1,11 @@
+body {
+	color: #00070E;
+}
+
+a {
+	color: #237057;
+}
+
 #content-wrapper {
 	margin-top: 10%;
 }
@@ -7,5 +15,31 @@ header {
 	margin-bottom: 3em;
 }
 
-#page-content {
+span.shorturltoken {
+	background: rgba(40, 74, 109, 0.2);
+	color: #041D37;
+	display: inline-block;
+	font-size: 90%;
+	font-weight: bold;
+	padding: 2px;
+	width: 5em;
+}
+
+span.shorturltoken:hover {
+		background: rgba(40, 74, 109, 0.4);
+}
+
+#flash-messages p {
+	text-align: center;
+	padding: 0.5em;
+}
+
+span.link {
+	width: 23.5em;
+	display: inline-block;
+}
+
+ul.shorturl-list {
+	list-style-type: none;
+	padding-left: 0;
 }
