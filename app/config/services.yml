@@ -7,3 +7,8 @@ services:
     short_url_service:
         class: AppBundle\ShortUrl\ShortUrlService
         arguments: ["@doctrine.orm.entity_manager"]
+    app.twig_extension.short_url_token:
+        class: AppBundle\Twig\ShortUrlTokenFilter
+        public: false
+        tags:
+            - { name: twig.extension }
