@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+
+<h2>All Urls</h2>
+<ul class="shorturl-list">
+	{% for url in urls %}
+	<li>
+		<span class="shorturltoken">{{url.id|shorturltoken}}</span class="shorturltoken">
+		<span class="link"><a href="{{url.url}}" target="_blank">{{url.url}}</a></span>
+		<span class="remove"><a class="text-danger" href="{{url('admin_rm_shorturl', {'shorturlid': url.id})}}">Remove</a></span>
+	</li>
+	{% endfor %}
+</ul>
+
+{% endblock %}
