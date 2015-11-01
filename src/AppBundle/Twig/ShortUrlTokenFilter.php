@@ -2,7 +2,7 @@
 
 namespace AppBundle\Twig;
 
-use AppBundle\ShortUrl\TokenConverter;
+use AppBundle\Lib\TokenConverter;
 
 class ShortUrlTokenFilter extends \Twig_Extension {
 

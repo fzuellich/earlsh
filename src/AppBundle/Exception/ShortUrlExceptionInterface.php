@@ -1,5 +1,5 @@
 <?php
-namespace AppBundle\ShortUrl\Exception;
+namespace AppBundle\Exception;
 
 interface ShortUrlExceptionInterface {}
 

@@ -7,7 +7,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Request;
 
-use AppBundle\ShortUrl\ShortUrlService;
+use AppBundle\Service\ShortUrlService;
 
 class FrontendController extends Controller {
 

@@ -1,7 +1,7 @@
 <?php
-namespace AppBundle\Tests\ShortUrl;
+namespace AppBundle\Tests\Service;
 
-use AppBundle\ShortUrl\ShortUrlService;
+use AppBundle\Service\ShortUrlService;
 
 class ShortUrlServiceTest extends \PHPUnit_Framework_TestCase {
 
@@ -123,7 +123,7 @@ class ShortUrlServiceTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @expectedException AppBundle\ShortUrl\Exception\UrlNotFoundException
+	 * @expectedException AppBundle\Exception\UrlNotFoundException
 	 */
 	public function test_get_token_for_url_not_found() {
 		$this->service->get_token_for_url('http://www.notinthedatabase.com');
@@ -164,14 +164,14 @@ class ShortUrlServiceTest extends \PHPUnit_Framework_TestCase {
 	// ////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * @expectedException AppBundle\ShortUrl\Exception\InvalidTokenException
+	 * @expectedException AppBundle\Exception\InvalidTokenException
 	 */
 	public function test_resolve_token_invalid_token() {
 		$this->service->resolve_token('dnhä');
 	}
 
 	/**
-	 * @expectedException AppBundle\ShortUrl\Exception\TokenNotFoundException
+	 * @expectedException AppBundle\Exception\TokenNotFoundException
 	 */
 	public function test_resolve_token_not_found() {
 		// Now, mock the repository so it returns the mock of the employee

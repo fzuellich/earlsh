@@ -8,8 +8,8 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
 use AppBundle\Entity\ShortUrl;
-use AppBundle\ShortUrl\Exception\InvalidTokenException;
-use AppBundle\ShortUrl\Exception\TokenNotFoundException;
+use AppBundle\Exception\InvalidTokenException;
+use AppBundle\Exception\TokenNotFoundException;
 
 class ApiController extends Controller {
 

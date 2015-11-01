@@ -8,9 +8,6 @@ use Symfony\Component\HttpFoundation\Request;
 
 use Doctrine\ORM\Tools\Pagination\Paginator;
 
-use AppBundle\ShortUrl\TokenConverter;
-
-
 use AppBundle\Entity\ShortUrl;
 
 class AdminController extends Controller {

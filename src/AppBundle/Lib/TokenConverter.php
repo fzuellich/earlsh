@@ -1,7 +1,7 @@
 <?php
-namespace AppBundle\ShortUrl;
+namespace AppBundle\Lib;
 
-use AppBundle\ShortUrl\Exception\InvalidTokenException;
+use AppBundle\Exception\InvalidTokenException;
 
 /**
  * Class implementing the algorithm to convert between token and integer (id from database).

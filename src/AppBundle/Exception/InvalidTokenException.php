@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\ShortUrl\Exception;
+namespace AppBundle\Exception;
 
 class InvalidTokenException extends \Exception implements ShortUrlExceptionInterface {}
 

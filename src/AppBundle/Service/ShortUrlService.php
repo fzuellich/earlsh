@@ -1,13 +1,13 @@
 <?php
-namespace AppBundle\ShortUrl;
+namespace AppBundle\Service;
 
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\HttpFoundation\Response;
 
 use AppBundle\Entity\ShortUrl;
-use AppBundle\ShortUrl\TokenConverter;
-use AppBundle\ShortUrl\Exception\UrlNotFoundException;
-use AppBundle\ShortUrl\Exception\TokenNotFoundException;
+use AppBundle\Lib\TokenConverter;
+use AppBundle\Exception\UrlNotFoundException;
+use AppBundle\Exception\TokenNotFoundException;
 
 /**
  * Class implements all the necessary functions to interact with the database to save URLs.
