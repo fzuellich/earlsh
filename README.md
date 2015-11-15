@@ -1,4 +1,7 @@
-# Earlsh - URL shortener
+![Earlsh - URL shortener](/blob/master/web/img/logo.png?raw=true "Earlsh - URL shortener")
+
+Logo by: [Gergana Gergova](http://www.gerganagergova.net/)
+
 An url shortener written in PHP using SQLite and the Symfony framework. The purpose of the application is to shorten long urls so that they are easier to remember and share. To achieve that it takes a URL of the form `http://www.something.com` and turns it into a token like `ab123`. Eventually such a token may be shared with an url like: `http://myhost.com/r/ab123`.
 
 ## Features
