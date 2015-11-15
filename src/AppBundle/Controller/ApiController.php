@@ -40,7 +40,7 @@ class ApiController extends Controller {
 			$tag = $service->shorten_url($url);
 			$response = new JsonResponse(array('token' => $tag));
 		} catch (\InvalidArgumentException $e) {
-			$response = JsonResponse(array(
+			$response = new JsonResponse(array(
 				'exception' => 'InvalidArgumentException'
 				, 'message' => $e->getMessage()
 			));
