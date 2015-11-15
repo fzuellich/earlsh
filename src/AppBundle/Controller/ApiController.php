@@ -43,7 +43,7 @@ class ApiController extends Controller {
 			$response = new JsonResponse(array(
 				'exception' => 'InvalidArgumentException'
 				, 'message' => $e->getMessage()
-			));
+			), 400);
 		}
 
 		return $response;
@@ -69,7 +69,7 @@ class ApiController extends Controller {
 			$response = new JsonResponse(array(
 				'exception' => 'InvalidTokenException'
 				, 'message' => $invalid->getMessage())
-			, 500);
+			, 400);
 		}
 
 		return $response;
