@@ -29,11 +29,20 @@ class ApiController extends Controller {
 
 	/**
 	 * @Route("/api/url/create")
-	 * @Method("PUT")
+	 * @Method("POST")
 	 */
 	public function createShortUrlAction(Request $request) {
 		$response = null;
-		$url = $request->request->get('url');
+
+		$request_content = json_decode($request->getContent(), true);
+		if(array_key_exists('url', $request_content) === false || empty(trim($request_content['url']))) {
+			return new JsonResponse(array(
+				'exception' => 'InvalidArgumentException'
+				, 'message' => 'URL parameter not found.'
+			), 400);
+		}
+
+		$url = $request_content['url'];
 
 		try {
 			$service = $this->container->get('short_url_service');
