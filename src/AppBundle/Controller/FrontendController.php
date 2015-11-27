@@ -22,6 +22,13 @@ class FrontendController extends Controller {
 	}
 
 	/**
+	 * @Route("/shorturl/{token}", name="shorten_result")
+	 */
+	public function showShortUrl($token) {
+		return $this->render('shorten_result.html.twig', array('token' => $token));
+	}
+
+	/**
 	 * @Route("/")
 	 * @Method({"GET", "POST"})
 	 */
@@ -44,11 +51,13 @@ class FrontendController extends Controller {
 				$service = $this->get('short_url_service');
 				try {
 					$token = $service->shorten_url($url);
-					return $this->render('shorten_result.html.twig', array('token' => $token));
+					return $this->redirectToRoute('shorten_result', array('token' => $token));
+					#return $this->render('shorten_result.html.twig', array('token' => $token));
 				} catch(\Exception $e) {
 					$form->get('url')->addError(new \Symfony\Component\Form\FormError($e->getMessage()));
 				}
 			}
+
 			return $this->render('shorten.html.twig', array('shorten_form' => $form->createView()));
 		}
 	}
