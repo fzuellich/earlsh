@@ -53,7 +53,7 @@ class ApiControllerTest extends WebTestCase {
 	public function test_shortenUrlAction() {
 		$client = static::createClient();
 		$client->request(
-				'PUT'
+				'POST'
 				, '/api/url/create'
 				, array('url' => 'http://www.github.com')
 				, array()
