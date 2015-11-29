@@ -34,12 +34,12 @@ class ApiControllerTest extends WebTestCase {
 		$this->assertArrayHasKey('message', $json);
 		$this->assertEquals('Token was not found.', $json['message']);
 
-		$client->request('GET', '/api/url/resolve/inv_lid');
+		$client->request('GET', '/api/url/resolve/inv_id');
 
 		// test header
 		$response = $client->getResponse();
 		$this->assertTrue($response->headers->contains('Content-Type','application/json'));
-		$this->assertEquals(500, $response->getStatusCode());
+		$this->assertEquals(400, $response->getStatusCode());
 
 		// test response
 		$json = json_decode($response->getContent(), true);
@@ -60,7 +60,7 @@ class ApiControllerTest extends WebTestCase {
 				, array('CONTENT-TYPE' => 'application/json')
 			);
 
-				// test header
+		// test header
 		$response = $client->getResponse();
 		$this->assertTrue($response->headers->contains('Content-Type','application/json'));
 		$this->assertTrue($response->isSuccessful());
