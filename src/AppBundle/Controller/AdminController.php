@@ -67,6 +67,25 @@ class AdminController extends Controller {
 		$this->addFlash('info', 'The url was removed!');
 		return $this->redirectToRoute('admin_list');
 	}
+
+	/**
+	 * @Route("/admin/apikeys/generate", name="admin_generate_apikeys")
+	 */
+	public function generateAPIToken(Request $request) {
+		$form = $this->createFormBuilder()
+			->add('comment', 'text')
+			->add('expires', 'date', array('widget' => 'single_text', 'format' => 'dd.MM.yyyy'))
+			->add('save', 'submit', array('label' => 'Generate'))
+			->getForm();
+
+		$form->handleRequest($request);
+
+		$method = $request->getMethod();
+		if($method === 'GET') {
+			return $this->render('admin/apikeys_generate.html.twig',
+				array('generator_form' => $form->createView()));
+		}
+	}
 }
 
 ?>

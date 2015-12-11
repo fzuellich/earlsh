@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+
+<h2>Generate a new API key</h2>
+
+{{form_start(generator_form, {'attr': {'class': '', 'id': 'generator-form'}})}}
+
+<div class="text-danger">{{form_errors(generator_form.expires)}}</div>
+
+<div class="form-group">
+	<label>Comment</label>
+	{{form_widget(generator_form.comment, {'attr': {'class': 'form-control'}})}}
+</div>
+<div class="from-group">
+	<label>Expires</label>
+	{{form_widget(generator_form.expires, {'attr': {'class': 'form-control'}})}}
+</div>
+
+{{form_widget(generator_form.save, {'attr': {'class': 'btn btn-default'}})}}
+
+
+{{form_end(generator_form)}}
+
+{% endblock %}
