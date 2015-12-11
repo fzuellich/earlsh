@@ -38,7 +38,7 @@ class FrontendController extends Controller {
 
 		$form = $this->createFormBuilder()
 				->add('url', 'url')
-				->add('save', 'submit', array('label' => 'Shorten'))->getForm();
+				->add('save', 'submit', array('label' => 'Go'))->getForm();
 		$form->handleRequest($request);
 
 		$method = $request->getMethod();

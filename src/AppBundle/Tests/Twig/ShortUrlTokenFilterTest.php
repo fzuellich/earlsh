@@ -14,7 +14,6 @@ class ShortUrlTokenFilterTest extends \PHPUnit_Framework_TestCase {
 			$this->assertEquals($key, $instance->shortUrlTokenFilter($value));
 		}
 
-
 		$this->assertEquals('', $instance->shortUrlTokenFilter(False));
 		$this->assertEquals('', $instance->shortUrlTokenFilter(Null));
 
