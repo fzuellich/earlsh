@@ -80,6 +80,16 @@ form#shorten-form .form-group .col-sm-10 {
 	padding-left: 0;
 }
 
+input#form_url {
+    border: 1px solid #1491d3;
+    box-shadow: 2px 2px #1491d3;
+    border-radius: 0;
+}
+
+button#form_save {
+	margin-top: 2px;
+}
+
 /* ****************************************************************************
  * Custom elements
  * ***************************************************************************/
