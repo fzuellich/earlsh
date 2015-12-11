@@ -16,13 +16,14 @@ An url shortener written in PHP using SQLite and the Symfony framework. The purp
     php app/...
     php app/console server:run
 
-## Possible features
-
-* Use API keys to authenticate incoming REST-API calls.
-
 # REST-API
 
 The project provides a JSON based REST API to create urls.
+
+## Authentication using API Keys
+
+API keys allow to limit the usage of the REST-API. They should only be used in
+combination with HTTPS. They can be generated in the admin interface.
 
 ## Create url
 **Endpoint:** `[PUT] api/url/create`
