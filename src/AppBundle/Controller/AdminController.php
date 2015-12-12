@@ -4,11 +4,13 @@ namespace AppBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Request;
 
 use Doctrine\ORM\Tools\Pagination\Paginator;
 
 use AppBundle\Entity\ShortUrl;
+use AppBundle\Entity\Apikey;
 
 class AdminController extends Controller {
 
@@ -70,22 +72,44 @@ class AdminController extends Controller {
 
 	/**
 	 * @Route("/admin/apikeys/generate", name="admin_generate_apikeys")
+	 * @Method({"GET", "POST"})
 	 */
-	public function generateAPIToken(Request $request) {
-		$form = $this->createFormBuilder()
+	public function generateApikey(Request $request) {
+		$apikey_service = $this->get('apikey_service');
+		$apikey = new Apikey($apikey_service->generate_apikey());
+
+		$form = $this->createFormBuilder($apikey)
+
 			->add('comment', 'text')
 			->add('expires', 'date', array('widget' => 'single_text', 'format' => 'dd.MM.yyyy'))
 			->add('save', 'submit', array('label' => 'Generate'))
 			->getForm();
 
 		$form->handleRequest($request);
-
 		$method = $request->getMethod();
-		if($method === 'GET') {
-			return $this->render('admin/apikeys_generate.html.twig',
-				array('generator_form' => $form->createView()));
+		if($method === 'POST' && $form->isValid()) {
+			$em = $this->getDoctrine()->getManager();
+			$em->persist($apikey);
+			$em->flush();
+
+			return $this->redirectToRoute('apikey_details',
+				array('apikey' => $apikey->getApikey()));
 		}
+
+		return $this->render('admin/apikeys_generate.html.twig',
+			array('generator_form' => $form->createView()));
 	}
+
+	/**
+	 * @Route("/admin/apikeys/{apikey}", name="apikey_details")
+	 */
+	public function apikeyDetails($apikey) {
+		$em = $this->getDoctrine()->getManager();
+		$apikey_instance = $em->getRepository('AppBundle:Apikey')->findOneByApikey($apikey);
+		return $this->render('admin/apikey_details.html.twig',
+			array('apikey' => $apikey_instance));
+	}
+
 }
 
 ?>

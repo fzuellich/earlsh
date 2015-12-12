@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+	<h2>Apikey details:</h2>
+	<div class="row">
+		<div class="col-sm-2"><strong>Key:</strong></div>
+		<div class="col-sm-10"><p class="text-info">{{apikey.apikey}}</p></div>
+
+		<div class="col-sm-2"><strong>Expires:</strong></div>
+		<div class="col-sm-10"><p>{{apikey.expires|date("d.m.Y - H:m")}}</p></div>
+
+		<div class="col-sm-2"><strong>Comment:</strong></div>
+		<div class="col-sm-10"><p>{{apikey.comment}}</p></div>
+
+		<div class="col-sm-12">&nbsp;</div>
+		<div class="col-sm-12 text-muted">Created on: {{apikey.createdOn|date("d.m.Y - H:m")}}</div>
+	</div>
+{% endblock %}
