@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+	<h2>Apikeys</h2>
+	<ul>
+		{% for apikey in apikeys %}
+			<li>
+				<a href="{{path('apikey_details', {apikey: apikey.apikey})}}">{{apikey.apikey}}</a>
+				{{apikey.expires|date('d.m.Y')}}</li>
+		{% endfor %}
+	</ul>
+{% endblock %}

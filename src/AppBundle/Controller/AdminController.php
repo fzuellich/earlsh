@@ -40,6 +40,21 @@ class AdminController extends Controller {
 		return $paginator;
 	}
 
+	private function findAllApikeysPaginated($offset=0) {
+		$em = $this->getDoctrine()->getManager();
+
+		// create query
+		$qb = $em->createQueryBuilder();
+		$query = $qb->select('apikey')
+					->from('AppBundle:Apikey', 'apikey')
+					->setFirstResult($offset)
+					->setMaxResults(self::RESULT_SIZE);
+
+		// feed to the paginator
+		$paginator = new Paginator($query, $fetchJoinCollection=false);
+		return $paginator;
+	}
+
 	/**
 	 * @Route("/admin/list/{page}", name="admin_list")
 	 */
@@ -98,6 +113,28 @@ class AdminController extends Controller {
 
 		return $this->render('admin/apikeys_generate.html.twig',
 			array('generator_form' => $form->createView()));
+	}
+
+	/**
+	 * @Route("/admin/apikeys", name="apikey_list")
+	 */
+	public function apikeyList($page=1) {
+		$db = $this->getDoctrine()->getManager()->getRepository('AppBundle:Apikey');
+		$apikeys = $this->findAllApikeysPaginated(($page-1) * self::RESULT_SIZE);
+		return $this->render('admin/apikeys_list.html.twig', array('apikeys' => $apikeys));
+	}
+
+	/**
+	 * @Route("/admin/apikeys/{apikey}/revoke", name="revoke_apikey")
+	 */
+	public function apikeyRevoke($apikey) {
+		$em = $this->getDoctrine()->getManager();
+		$apikey_instance = $em->getRepository('AppBundle:Apikey')->findOneByApikey($apikey);
+
+		$em->remove($apikey_instance);
+		$em->flush();
+
+		return $this->redirectToRoute('apikey_list');
 	}
 
 	/**
