@@ -1,6 +1,8 @@
 {% extends 'base.html.twig' %}
 
 {% block content %}
-<h2>Your token</h2>
-<p class="well"><i>{{url('resolve', {'token': token})}}</i></p>
+<div class="col-sm-12">
+	<h2>Your token</h2>
+	<p class="well"><i>{{url('resolve', {'token': token})}}</i></p>
+</div>
 {% endblock %}
