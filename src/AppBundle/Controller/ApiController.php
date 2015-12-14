@@ -55,9 +55,15 @@ class ApiController extends Controller {
 			return $isValid;
 		}
 
-		$response = null;
+		$url_parameter = null;
+		$content = $request->getContent();
+		if(!empty($content)) {
+			$decoded_content = json_decode($content, true);
+			if(array_key_exists('url', $decoded_content)) {
+				$url_parameter = $decoded_content['url'];
+			}
+		}
 
-		$url_parameter = $request->get('url');
 		if($url_parameter === null || empty(trim($url_parameter))) {
 			return new JsonResponse(array(
 				'exception' => 'InvalidArgumentException'
@@ -65,6 +71,7 @@ class ApiController extends Controller {
 			), 400);
 		}
 
+		$response = null;
 		try {
 			$service = $this->container->get('short_url_service');
 			$tag = $service->shorten_url($url_parameter);
