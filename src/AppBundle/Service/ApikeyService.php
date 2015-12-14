@@ -1,10 +1,31 @@
 <?php
 namespace AppBundle\Service;
 
+use Doctrine\Common\Persistence\ObjectManager;
 /**
- * Central interface to generate and validate api keys.
+ * Central interface to generate and verify api keys.
  */
 class ApikeyService {
+
+	const APIKEY_MODEL = 'AppBundle:Apikey';
+
+	private $em;
+
+	public function __construct(ObjectManager $entityManager) {
+		$this->em = $entityManager;
+	}
+
+	public function verify_apikey($apikey) {
+		if(is_null($apikey) === True
+			|| empty($apikey) === True
+			|| is_string($apikey) === False) {
+			return False;
+		}
+
+		$instance = $this->em->getRepository(self::APIKEY_MODEL)->findOneByApikey($apikey);
+		$now = new \DateTime();
+		return $instance !== Null && $instance->getExpires() >= $now;
+	}
 
 	/**
 	 * Generate a new api key based on UUIDv4. Taken from:
