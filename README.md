@@ -10,10 +10,20 @@ An url shortener written in PHP using SQLite and the Symfony framework. The purp
 * Admin panel to remove shorturls
 * REST-API to create and resolve URLs
 
-## Run the demo
+## Run the app
 
     git clone https://github.com/fzuellich/earlsh
-    php app/...
+    composer install
+    
+    # define parameter 'database_path', for example "%kernel.root_dir%/data/database.db", in app/config/parameters.yml
+    # make sure the path exists to the database
+
+    php app/console doctrine:database:create
+    php app/console doctrine:schema:create
+
+    # apply some post-deployment tasks like described here 
+    # http://symfony.com/doc/2.8/cookbook/deployment/tools.html#common-post-deployment-tasks
+
     php app/console server:run
 
 # REST-API
@@ -23,7 +33,8 @@ The project provides a JSON based REST API to create urls.
 ## Authentication using API Keys
 
 API keys allow to limit the usage of the REST-API. They should only be used in
-combination with HTTPS. They can be generated in the admin interface.
+combination with HTTPS. They can be generated in the admin interface and have to be
+supplied in the request as GET parameter.
 
 ## Create url
 **Endpoint:** `[PUT] api/url/create`
@@ -37,15 +48,10 @@ combination with HTTPS. They can be generated in the admin interface.
 **Example**
 
 	# to server ==>
-	{
-		"url": "http://www.abc.de/index.php"
-	}
+	{ "url": "http://www.abc.de/index.php" }
 
 	# <== response
-
-	{
-		"token": "12345678"
-	}
+	{ "token": "12345678" }
 
 ## Resolve url
 
