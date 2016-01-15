@@ -14,10 +14,16 @@ An url shortener written in PHP using SQLite and the Symfony framework. The purp
 
     git clone https://github.com/fzuellich/earlsh
     composer install
+    
     # define parameter 'database_path', for example "%kernel.root_dir%/data/database.db", in app/config/parameters.yml
     # make sure the path exists to the database
+
     php app/console doctrine:database:create
     php app/console doctrine:schema:create
+
+    # apply some post-deployment tasks like described here 
+    # http://symfony.com/doc/2.8/cookbook/deployment/tools.html#common-post-deployment-tasks
+
     php app/console server:run
 
 # REST-API
