@@ -7,6 +7,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Request;
 
+use AppBundle\Exception;
 use AppBundle\Service\ShortUrlService;
 
 class FrontendController extends Controller {
@@ -17,8 +18,12 @@ class FrontendController extends Controller {
 	public function resolveAction($token) {
 		$service = $this->get('short_url_service');
 
-		$url = $service->resolve_token($token);
-		return $this->redirect($url);
+		try {
+			$url = $service->resolve_token($token);
+			return $this->redirect($url);
+		} catch(Exception\TokenNotFoundException $e) {
+			throw $this->createNotFoundException(sprintf("Token '%s' not found.", $token));
+		}
 	}
 
 	/**
