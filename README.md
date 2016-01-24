@@ -27,11 +27,11 @@ An URL shortener written in PHP using SQLite and the Symfony framework. The purp
 
     php app/console server:run
 
-# Configuration
+## Configuration
 
 The installation can be configured using the earlsh.yml configuration file located in `app/config/`.
 
-## `prevent_local_urls`
+### `prevent_local_urls`
 
 Prevents a user from shortening urls pointing to the url the application is hosted on. This maybe useful if you don't want endless redirection loops in case the user can guess the next token and create a short url like this:
 
@@ -41,13 +41,13 @@ Prevents a user from shortening urls pointing to the url the application is host
 
 __Set the configuration parameter `hostname` to make this work!__
 
-## `hostname`
+### `hostname`
 
 Because it is not really trivial to resolve the current hostname of the application you need to provide this yourself!
 
 The value should just be the domain name and is later extended to a regular expression of the form `#{hostname}/r`.
 
-## `rejected_sites`
+### `rejected_sites`
 
 In order to block certain URLs from being shortened, you may define a list of regular expressions that will be used to evaluate URLs.
 
@@ -55,17 +55,17 @@ The value should be the pattern without the delimiters required by PHP (e.g. `#`
 
 __In case the regular expression creates an error, this information is written to the error log using the function `error_log`.__
 
-# REST-API
+## REST-API
 
 The project provides a JSON based REST API to create urls.
 
-## Authentication using API Keys
+### Authentication using API Keys
 
 API keys allow to limit the usage of the REST-API. They should only be used in
 combination with HTTPS. They can be generated in the admin interface and have to be
 supplied in the request as 'apikey' GET parameter.
 
-## Create url
+### Create url
 
 **Endpoint:** `[PUT] api/url/create?apikey=%apikey%`
 
@@ -84,7 +84,7 @@ supplied in the request as 'apikey' GET parameter.
 	{ "token": "12345678" }
 
 
-## Resolve url
+### Resolve url
 
 **Endpoint:** `[GET] api/url/resolve/{token:string}`
 
@@ -97,7 +97,7 @@ supplied in the request as 'apikey' GET parameter.
 * _url_ - The url resolved.
 
 
-## Exceptions
+### Exceptions
 
 When calling the REST-API with illegal arguments or if otherwise an internal error occurs, there might be an exception returned. The format for exception reporting is always:
 
