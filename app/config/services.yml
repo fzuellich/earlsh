@@ -6,10 +6,17 @@ parameters:
 services:
     short_url_service:
         class: AppBundle\Service\ShortUrlService
-        arguments: ["@doctrine.orm.entity_manager"]
+        arguments: ["@doctrine.orm.entity_manager", "@earlsh_configuration"]
+
     apikey_service:
         class: AppBundle\Service\ApikeyService
         arguments: ["@doctrine.orm.entity_manager"]
+
+    earlsh_configuration:
+        class: AppBundle\Config\EarlshConfiguration
+        arguments: [%kernel.root_dir%/config]
+
+
     app.twig_extension.short_url_token:
         class: AppBundle\Twig\ShortUrlTokenFilter
         public: false

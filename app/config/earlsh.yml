@@ -1,0 +1,8 @@
+earlsh:
+
+    # Prevent someone from creating a short url pointing to this earlsh installation.
+    prevent_local_urls: true
+
+    # Add some regexes to prevent matching urls from being shortened.
+    reject_sites:
+        - http.?://.*porn.
