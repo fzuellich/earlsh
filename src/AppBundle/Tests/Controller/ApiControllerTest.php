@@ -55,7 +55,7 @@ class ApiControllerTest extends WebTestCase {
 		$client->request(
 				'POST'
 				, '/api/url/create'
-				, array('url' => 'http://www.github.com')
+				, array('url' => 'http://www.github.com', 'apikey' => 'e305648feb4942b0a3e4058545d52a38')
 				, array()
 				, array('CONTENT-TYPE' => 'application/json')
 			);
@@ -69,6 +69,22 @@ class ApiControllerTest extends WebTestCase {
 		$json = json_decode($response->getContent(), true);
 		$this->assertEquals(1, count($json));
 		$this->assertArrayHasKey('token', $json);
+	}
+
+	public function test_shortenUrlAction_fails_without_apikey() {
+		$client = static::createClient();
+		$client->request(
+				'POST'
+				, '/api/url/create'
+				, array('url' => 'http://www.github.com')
+				, array()
+				, array('CONTENT-TYPE' => 'application/json')
+			);
+
+		// test header
+		$response = $client->getResponse();
+		$this->assertTrue($response->headers->contains('Content-Type','application/json'));
+		$this->assertFalse($response->isSuccessful());
 	}
 
 	public function test_welcomeAction() {

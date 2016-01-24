@@ -2,6 +2,7 @@
 namespace AppBundle\Tests\Service;
 
 use AppBundle\Service\ShortUrlService;
+use AppBundle\Config\EarlshConfiguration;
 
 class ShortUrlServiceTest extends \PHPUnit_Framework_TestCase {
 
@@ -16,7 +17,9 @@ class ShortUrlServiceTest extends \PHPUnit_Framework_TestCase {
 			->disableOriginalConstructor()->getMock();
 		$em->expects($this->any())->method('getRepository')->willReturn($urlRepo);
 
-		$this->service = new ShortUrlService($em);
+		$this->earlsh_config = new EarlshConfiguration(__DIR__.'/../');
+
+		$this->service = new ShortUrlService($em, $this->earlsh_config);
 	}
 
 	// ////////////////////////////////////////////////////////////////////////
@@ -24,26 +27,48 @@ class ShortUrlServiceTest extends \PHPUnit_Framework_TestCase {
 	// ////////////////////////////////////////////////////////////////////////
 
 	public function test_is_valid_url() {
-		$result = ShortUrlService::is_valid_url('');
+		$result = $this->service->is_valid_url('');
 		$this->assertFalse($result);
 
-		$result = ShortUrlService::is_valid_url(123);
+		$result = $this->service->is_valid_url(123);
 		$this->assertFalse($result);
 
-		$result = ShortUrlService::is_valid_url('www.notvalid.com');
+		$result = $this->service->is_valid_url('www.notvalid.com');
 		$this->assertFalse($result);
 
 		// valid urls
-		$result = ShortUrlService::is_valid_url('http://without.www');
+		$result = $this->service->is_valid_url('http://without.www');
 		$this->assertTrue($result);
 
-		$result = ShortUrlService::is_valid_url('http://www.normal.com/');
+		$result = $this->service->is_valid_url('http://www.normal.com/');
 		$this->assertTrue($result);
 
-		$result = ShortUrlService::is_valid_url('http://www.normal.com/index.php');
+		$result = $this->service->is_valid_url('http://www.normal.com/index.php');
 		$this->assertTrue($result);
 
-		$result = ShortUrlService::is_valid_url('http://www.normal.com/?id=helloWorld');
+		$result = $this->service->is_valid_url('http://www.normal.com/?id=helloWorld');
+		$this->assertTrue($result);
+	}
+
+	public function test_is_valid_url_prevent_local_urls() {
+		$result = $this->service->is_valid_url('http://localhost:8000/r/123');
+		$this->assertFalse($result);
+
+		$result = $this->service->is_valid_url('http://someotherdomain/r/123');
+		$this->assertTrue($result);
+	}
+
+	public function test_is_valid_url_rejects_regex_from_config() {
+		$result = $this->service->is_valid_url('http://somethingporn.com');
+		$this->assertFalse($result);
+		$result = $this->service->is_valid_url('https://www.somethingporn.com');
+		$this->assertFalse($result);
+		$result = $this->service->is_valid_url('http://porn.somemore.com/videolink');
+		$this->assertFalse($result);
+
+		$result = $this->service->is_valid_url('http://normalsite.com/blog/about-porn');
+		$this->assertTrue($result);
+		$result = $this->service->is_valid_url('https://normalsite.com/blog/about-porn');
 		$this->assertTrue($result);
 	}
 
@@ -86,15 +111,15 @@ class ShortUrlServiceTest extends \PHPUnit_Framework_TestCase {
 		$em = $this->getMockBuilder('\Doctrine\Common\Persistence\ObjectManager')->disableOriginalConstructor()->getMock();
 		$em->expects($this->any())->method('getRepository')->willReturn($urlRepo);
 
-		$service = new ShortUrlService($em);
-		$result = $service->is_url_in_database('http://inthedatabase.com');
+		$this->service = new ShortUrlService($em, $this->earlsh_config);
+		$result = $this->service->is_url_in_database('http://inthedatabase.com');
 
 		// Last, mock the EntityManager to return the mock of the repository
 		$em = $this->getMockBuilder('\Doctrine\Common\Persistence\ObjectManager')->disableOriginalConstructor()->getMock();
 		$em->expects($this->any())->method('getRepository')->willReturn($urlRepo);
 
-		$service = new ShortUrlService($em);
-		$result = $service->is_url_in_database('http://www.notinthedatabase.com');
+		$this->service = new ShortUrlService($em, $this->earlsh_config);
+		$result = $this->service->is_url_in_database('http://www.notinthedatabase.com');
 		$this->assertFalse($result);
 	}
 
@@ -117,8 +142,8 @@ class ShortUrlServiceTest extends \PHPUnit_Framework_TestCase {
 		$em = $this->getMockBuilder('\Doctrine\Common\Persistence\ObjectManager')->disableOriginalConstructor()->getMock();
 		$em->expects($this->any())->method('getRepository')->willReturn($urlRepo);
 
-		$service = new ShortUrlService($em);
-		$result = $service->get_token_for_url('http://inthedatabase.com');
+		$this->service = new ShortUrlService($em, $this->earlsh_config);
+		$result = $this->service->get_token_for_url('http://inthedatabase.com');
 		$this->assertEquals('dnh', $result);
 	}
 
@@ -183,8 +208,8 @@ class ShortUrlServiceTest extends \PHPUnit_Framework_TestCase {
 		$em->expects($this->any())->method('getRepository')->willReturn($repository);
 
 		// test
-		$service = new ShortUrlService($em);
-		$service->resolve_token('asdf1234');
+		$this->service = new ShortUrlService($em, $this->earlsh_config);
+		$this->service->resolve_token('asdf1234');
 	}
 
 	public function test_resolve_token() {
@@ -203,12 +228,12 @@ class ShortUrlServiceTest extends \PHPUnit_Framework_TestCase {
 		$em->expects($this->any())->method('getRepository')->willReturn($urlRepo);
 
 		// test
-		$service = new ShortUrlService($em);
-		$result = $service->resolve_token('dnh');
+		$this->service = new ShortUrlService($em, $this->earlsh_config);
+		$result = $this->service->resolve_token('dnh');
 		$this->assertTrue(is_string($result));
 		$this->assertFalse(empty($result));
 		$this->assertTrue(ShortUrlService::is_valid_url($result));
-		$this->assertTrue($service->is_url_in_database($result));
+		$this->assertTrue($this->service->is_url_in_database($result));
 		$this->assertEquals('http://inthedatabase.com', $result);
 	}
 }

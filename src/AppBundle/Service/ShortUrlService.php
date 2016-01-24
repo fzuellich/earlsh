@@ -8,6 +8,7 @@ use AppBundle\Entity\ShortUrl;
 use AppBundle\Lib\TokenConverter;
 use AppBundle\Exception\UrlNotFoundException;
 use AppBundle\Exception\TokenNotFoundException;
+use AppBundle\Config\EarlshConfiguration;
 
 /**
  * Class implements all the necessary functions to interact with the database to save URLs.
@@ -17,25 +18,52 @@ class ShortUrlService {
 	const SHORT_URL_MODEL = 'AppBundle:ShortUrl';
 
 	private $em;
+	private $config;
 
-	public function __construct(ObjectManager $entityManager) {
+	public function __construct(ObjectManager $entityManager, EarlshConfiguration $config) {
 		$this->em = $entityManager;
+		$this->config = $config;
+	}
+
+	public function is_local_url($url) {
+		$regex = sprintf('#%s/r#i', $this->config->getHostname());
+		return preg_match($regex, $url) === 1;
 	}
 
 	/**
 	 * Return true if the given URL is valid according to PHPs filter function. If not False
 	 * is returned. This method throws no exceptions. Therefore empty URLs are also considered
-	 * False.
+	 * false.
 	 * @param String $url URL to check.
-	 * @return boolean True if valid URL.
+	 * @return boolean true if valid URL.
 	 */
-	public static function is_valid_url($url) {
+	public function is_valid_url($url) {
 		if(!is_string($url) || empty($url)) {
-			return False;
+			return false;
 		}
 
-		// explicitly test if False in case the filter returns something other than bool
-		return filter_var($url, FILTER_VALIDATE_URL, FILTER_FLAG_SCHEME_REQUIRED) !== False;
+		if(filter_var($url, FILTER_VALIDATE_URL, FILTER_FLAG_SCHEME_REQUIRED) === false) {
+			return false;
+		}
+
+		if($this->config->isPreventLocalUrls() && $this->is_local_url($url) === true) {
+			return false;
+		}
+
+		// we are sure that the current url can only be valid or a rejected site
+		$rejected_sites = $this->config->getRejectedSites();
+		if(!empty($rejected_sites)) {
+			foreach ($rejected_sites as $site) {
+				$match_result = preg_match($site, $url);
+				if ($match_result === 1) {
+					return false;
+				} else if($match_result === false) {
+					error_log('Error when using regex <'.$site.'>!');
+				}
+			}
+		}
+
+		return true;
 	}
 
 	/**
@@ -45,7 +73,7 @@ class ShortUrlService {
 	 * @throws InvalidArgumentException if invalid URL is given (empty, invalid syntax).
 	 */
 	public function is_url_in_database($url) {
-		if(!is_string($url) || empty($url) || !self::is_valid_url($url)) {
+		if(!is_string($url) || empty($url) || !$this->is_valid_url($url)) {
 			throw new \InvalidArgumentException('Invalid URL given!');
 		}
 
@@ -79,7 +107,7 @@ class ShortUrlService {
 	 * @return String Token as shortened url.
 	 */
 	public function shorten_url($url) {
-		if(!is_string($url) || empty($url) || !self::is_valid_url($url)) {
+		if(!is_string($url) || empty($url) || !$this->is_valid_url($url)) {
 			throw new \InvalidArgumentException('Invalid URL given!');
 		}
 
