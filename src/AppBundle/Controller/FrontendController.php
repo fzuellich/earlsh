@@ -57,7 +57,6 @@ class FrontendController extends Controller {
 				try {
 					$token = $service->shorten_url($url);
 					return $this->redirectToRoute('shorten_result', array('token' => $token));
-					#return $this->render('shorten_result.html.twig', array('token' => $token));
 				} catch(\Exception $e) {
 					$form->get('url')->addError(new \Symfony\Component\Form\FormError($e->getMessage()));
 				}
