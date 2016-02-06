@@ -67,7 +67,7 @@ supplied in the request as 'apikey' GET parameter.
 
 ### Create url
 
-**Endpoint:** `[PUT] api/url/create?apikey=%apikey%`
+**Endpoint:** `[POST] api/url/create?apikey=%apikey%`
 
 **Request:**
 * _url_ - The url to shorten
