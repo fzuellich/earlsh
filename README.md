@@ -1,4 +1,4 @@
-![Earlsh - URL shortener](./web/img/logo.png?raw=true "Earlsh - URL shortener")
+![Earlsh - URL shortener](./web/img/logo-highres.png?raw=true "Earlsh - URL shortener")
 
 Logo by: [Gergana Gergova](http://www.gerganagergova.net/)
 
