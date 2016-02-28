@@ -133,13 +133,3 @@ span.shorturltoken:hover {
 	text-align: center;
 	padding: 0.5em;
 }
-
-span.link {
-	width: 23.5em;
-	display: inline-block;
-}
-
-ul.shorturl-list {
-	list-style-type: none;
-	padding-left: 0;
-}
