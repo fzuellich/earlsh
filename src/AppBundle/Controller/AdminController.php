@@ -14,7 +14,7 @@ use AppBundle\Entity\Apikey;
 
 class AdminController extends Controller {
 
-	const RESULT_SIZE = 100;
+	const RESULT_SIZE = 15;
 
 	/**
 	 * Maybe extend the Doctrine EntityRepository and create an own method to retrieve
@@ -64,7 +64,11 @@ class AdminController extends Controller {
 		}
 
 		$urls = $this->findAllShortUrlsPaginated(($page-1) * self::RESULT_SIZE);
-		return $this->render('admin_list.html.twig', array('urls' => $urls));
+		return $this->render('admin/admin_list.html.twig', array(
+			'urls' => $urls
+			, 'page' => $page
+			, 'activeRoute' => 'url'
+			));
 	}
 
 	/**
@@ -112,7 +116,8 @@ class AdminController extends Controller {
 		}
 
 		return $this->render('admin/apikeys_generate.html.twig',
-			array('generator_form' => $form->createView()));
+			array('generator_form' => $form->createView()
+				, 'activeRoute' => ['apikey', 'apikey_generate']));
 	}
 
 	/**
@@ -122,7 +127,9 @@ class AdminController extends Controller {
 	public function apikeyList($page) {
 		$db = $this->getDoctrine()->getManager()->getRepository('AppBundle:Apikey');
 		$apikeys = $this->findAllApikeysPaginated(($page-1) * self::RESULT_SIZE);
-		return $this->render('admin/apikeys_list.html.twig', array('apikeys' => $apikeys));
+		return $this->render('admin/apikeys_list.html.twig', array(
+			'apikeys' => $apikeys
+			, 'activeRoute' => 'apikey'));
 	}
 
 	/**
@@ -146,7 +153,8 @@ class AdminController extends Controller {
 		$em = $this->getDoctrine()->getManager();
 		$apikey_instance = $em->getRepository('AppBundle:Apikey')->findOneByApikey($apikey);
 		return $this->render('admin/apikey_details.html.twig',
-			array('apikey' => $apikey_instance));
+			array('apikey' => $apikey_instance
+				, 'activeRoute' => 'apikey'));
 	}
 
 }
